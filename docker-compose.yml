@@ -1,0 +1,67 @@
+version: 3 # La version du format docker compose
+
+services: # L'ensemble des services que je vais implémenter
+  mariadb: # Définition du service MariaDB
+    container_name: mariadb
+    networks:
+      - inception # Connexion au réseau Docker 'inception', permettant la communication avec les autres services
+    build: # Construction d'une image
+      context: requirements/mariadb # Le dossier contenants les fichiers nécessaire au build
+      dockerfile: Dockerfile
+    env_file: .env # Loading des variables d'envrionnement sensibles stockés dans un fichier .env
+    volumes:
+      - mariadb:/var/lib/mysql
+    restart: always
+    expose:
+      - "3306" # Exposition d'un port uniquement aux autres conteneurs du même réseau
+  
+  nginx: # Définition du service nginx
+    container_name: nginx
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    depends_on:
+      - wordpress # Démarrage de nginx qu'après que Wordpress soit fonctionnel 
+    build:
+      context: requirements/nginx
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "443:443" # Exposition d'un port vers l'extérieur de la machine hôte
+    restart: always
+  
+  wordpress: # Définition du service wordpress
+    container_name: wordpress
+    env_file: .env 
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    depends_on:
+      - mariadb
+    restart: always
+    expose:
+      - "9000"
+  
+volumes: # Déclaration des volumes Docker pour la persistance et partage de données
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none' 
+      o: 'bind'
+      device: '/home/loribeir/data/wordpress' # Chemin où sont stockés les fichiers wordpress
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/loribeir/data/mariadb'
+
+networks: # Configuration d'un réseau pour isoler et faire communiquer les services entre eux
+  inception:
+  driver: bridge # Réseau de type 'bridge' Docker, réseau privé entre les conteneurs
+  

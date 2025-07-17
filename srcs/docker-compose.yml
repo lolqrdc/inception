@@ -1,5 +1,3 @@
-version: 3 # La version du format docker compose
-
 services: # L'ensemble des services que je vais implémenter
   mariadb: # Définition du service MariaDB
     container_name: mariadb
@@ -63,5 +61,5 @@ volumes: # Déclaration des volumes Docker pour la persistance et partage de don
 
 networks: # Configuration d'un réseau pour isoler et faire communiquer les services entre eux
   inception:
-  driver: bridge # Réseau de type 'bridge' Docker, réseau privé entre les conteneurs
+    driver: bridge # Réseau de type 'bridge' Docker, réseau privé entre les conteneurs
   

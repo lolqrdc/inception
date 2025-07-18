@@ -1,0 +1,8 @@
+[mysqld] # Section de configuration du serveur mariadb
+
+datadir= /var/lib/mysql # Répertoire où les données de la base sont stockées
+bind_address =0.0.0.0 # Ecoute sur toutes les interfaces réseau
+port = 3306 # MySQL va communiquer sur ce port
+user = mysql # Utilisateur système qui exécutera le service
+character-set-server=utf8mb4 # Encodage par défaut : supporte tous les caractères Unicode, y compris les emoji
+collation-server=utf8mb4_unicode_ci # Méthode de tri et de comparaison des caractères Unicode

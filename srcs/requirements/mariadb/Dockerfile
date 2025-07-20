@@ -10,6 +10,7 @@ RUN mkdir -p /var/lib/mysql /run/mysqld && \
 COPY conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf 
 COPY tools/init.sql /tools/init.sql
 COPY tools/script.sh /tools/script.sh
+RUN chmod +x /tools/script.sh
 
 USER mysql
 

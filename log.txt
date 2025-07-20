@@ -28,3 +28,28 @@ CONTAINER ID   IMAGE                 COMMAND                  CREATED         ST
 28cb38d32351   inception-nginx       "nginx -g 'daemon of…"   3 minutes ago   Up 3 minutes   0.0.0.0:443->443/tcp, [::]:443->443/tcp   nginx
 ec3dd105f119   inception-wordpress   "/tools/init.sh"         3 minutes ago   Up 3 minutes   9000/tcp                                  wordpress
 50fef86f73b1   inception-mariadb     "/tools/script.sh"       3 minutes ago   Up 3 minutes   3306/tcp                                  mariadb
+
+
+docker exec mariadb ls -la /var/lib/mysql
+total 154096
+drwxr-x---    7 mysql    mysql         4096 Jul 20 14:44 .
+drwxr-xr-x    1 root     root          4096 Jul 20 14:43 ..
+-rw-rw----    1 mysql    mysql            2 Jul 20 14:44 50fef86f73b1.pid
+-rw-rw----    1 mysql    mysql       417792 Jul 20 14:41 aria_log.00000001
+-rw-rw----    1 mysql    mysql           52 Jul 20 14:41 aria_log_control
+-rw-rw----    1 mysql    mysql            9 Jul 20 14:44 ddl_recovery.log
+-rw-r-----    1 mysql    mysql          790 Jul 20 14:41 ib_buffer_pool
+-rw-rw----    1 mysql    mysql    100663296 Jul 20 14:41 ib_logfile0
+-rw-rw----    1 mysql    mysql     12582912 Jul 20 14:41 ibdata1
+-rw-rw----    1 mysql    mysql     12582912 Jul 20 14:44 ibtmp1
+-rw-r--r--    1 mysql    mysql           14 Jul 20 14:41 mariadb_upgrade_info
+-rw-rw----    1 mysql    mysql            0 Jul 20 14:44 multi-master.info
+drwx------    2 mysql    mysql         4096 Jul 20 14:41 mysql
+drwx------    2 mysql    mysql         4096 Jul 20 14:41 performance_schema
+drwx------    2 mysql    mysql        12288 Jul 20 14:41 sys
+-rw-rw----    1 mysql    mysql        24576 Jul 20 14:44 tc.log
+drwx------    2 mysql    mysql         4096 Jul 20 14:41 test
+-rw-rw----    1 mysql    mysql     10485760 Jul 20 14:41 undo001
+-rw-rw----    1 mysql    mysql     10485760 Jul 20 14:41 undo002
+-rw-rw----    1 mysql    mysql     10485760 Jul 20 14:41 undo003
+drwx------    2 mysql    mysql         4096 Jul 20 14:41 wordpress

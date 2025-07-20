@@ -6,7 +6,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql # 
 
     echo "==> Running SQL initialization script..."
-    mysqld --user=mysql --bootstrap < /tools/init.sql
+    envsubst < /tools/init.sql | mysqld --user=mysql --bootstrap
     echo "==> MariaDB initial setup complete."
 fi
 

@@ -22,3 +22,9 @@ mysqld: Deprecated program name. It will be removed in a future release, use '/u
 2025-07-20 14:44:02 0 [Note] mysqld: Event Scheduler: Loaded 0 events
 2025-07-20 14:44:02 0 [Note] mysqld: ready for connections.
 Version: '11.4.5-MariaDB'  socket: '/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
+
+
+CONTAINER ID   IMAGE                 COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+28cb38d32351   inception-nginx       "nginx -g 'daemon of…"   3 minutes ago   Up 3 minutes   0.0.0.0:443->443/tcp, [::]:443->443/tcp   nginx
+ec3dd105f119   inception-wordpress   "/tools/init.sh"         3 minutes ago   Up 3 minutes   9000/tcp                                  wordpress
+50fef86f73b1   inception-mariadb     "/tools/script.sh"       3 minutes ago   Up 3 minutes   3306/tcp                                  mariadb

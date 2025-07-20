@@ -1,27 +1,14 @@
 #!/bin/sh
-set -e # Le script s'arrêtera qu'en cas d'erreur
+set -e
 
-echo "==> Forcing MariaDB initialization..."
+if [ ! -d "/var/lib/mysql/mysql" ]; then
+    echo "==> Initializing MariaDB data directory..."
+    mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 
-# TOUJOURS forcer la réinitialisation
-echo "==> Initializing MariaDB data directory..."
-
-# Supprimer TOUS les anciens fichiers
-rm -rf /var/lib/mysql/* /var/lib/mysql/.* 2>/dev/null || true
-
-mariadb-install-db --user=mysql --datadir=/var/lib/mysql
-
-echo "==> Running SQL initialization script..."
-echo "==> Available environment variables:"
-env | grep MARIADB || echo "No MARIADB variables found!"
-
-envsubst < /tools/init.sql > /tmp/init_processed.sql
-echo "==> Processed SQL file:"
-cat /tmp/init_processed.sql
-
-mysqld --user=mysql --bootstrap < /tmp/init_processed.sql
-
-echo "==> MariaDB initial setup complete."
+    echo "==> Running SQL initialization script..."
+    envsubst < /tools/init.sql | mysqld --user=mysql --bootstrap
+    echo "==> MariaDB initial setup complete."
+fi
 
 echo "==> Starting MariaDB server..."
 exec mysqld --user=mysql

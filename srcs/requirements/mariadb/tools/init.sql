@@ -1,14 +1,21 @@
--- Création de la basse wordpress si elle n'existe pas
+-- Créer la base de données
 CREATE DATABASE IF NOT EXISTS `${MARIADB_DATABASE}`;
 
--- Création de l'utilisateur avec son password
+-- Créer l'utilisateur pour tous les hosts possibles
 CREATE USER IF NOT EXISTS '${MARIADB_USER}'@'%' IDENTIFIED BY '${MARIADB_PASSWORD}';
+CREATE USER IF NOT EXISTS '${MARIADB_USER}'@'localhost' IDENTIFIED BY '${MARIADB_PASSWORD}';
+CREATE USER IF NOT EXISTS '${MARIADB_USER}'@'wordpress.inception_inception' IDENTIFIED BY '${MARIADB_PASSWORD}';
 
--- Accorder les privilèges sur la base à l'utilisateur wordpress
+-- Donner tous les privilèges
 GRANT ALL PRIVILEGES ON `${MARIADB_DATABASE}`.* TO '${MARIADB_USER}'@'%';
+GRANT ALL PRIVILEGES ON `${MARIADB_DATABASE}`.* TO '${MARIADB_USER}'@'localhost';
+GRANT ALL PRIVILEGES ON `${MARIADB_DATABASE}`.* TO '${MARIADB_USER}'@'wordpress.inception_inception';
 
--- Définit le password du root 
+-- Configuration root
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
--- Rendre tous les nouveaux utilisateurs/password/privilèges actifs immédiatement
+-- Nettoyer et activer
+DELETE FROM mysql.user WHERE User='';
 FLUSH PRIVILEGES;

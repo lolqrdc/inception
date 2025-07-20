@@ -12,7 +12,12 @@ services: # L'ensemble des services que je vais implémenter
     restart: always
     expose:
       - "3306" # Exposition d'un port uniquement aux autres conteneurs du même réseau
-  
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
   nginx: # Définition du service nginx
     container_name: nginx
     volumes:
@@ -40,7 +45,8 @@ services: # L'ensemble des services que je vais implémenter
       context: requirements/wordpress
       dockerfile: Dockerfile
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     restart: always
     expose:
       - "9000"

@@ -22,7 +22,9 @@ clean: down
 
 # Supprimer les images custom
 fclean: clean
-	docker rmi $(docker images -q $(NAME_)* || true)
+	@docker rmi $$(docker images -q $(NAME)_* || true)
 
 # tout clean up et relancer proprement
-re: fclean up
+re: fclean all
+
+.PHONY: all down clean fclean re

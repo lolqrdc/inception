@@ -42,6 +42,9 @@ COPY conf/wp-config.php /tmp/wp-config.php
 COPY tools/init.sh /tools/init.sh
 RUN chmod +x /tools/init.sh
 
+# Créer le dossier tools et donner les permissions
+RUN mkdir -p /tools && chown -R www-data:www-data /tools
+
 
 # Permettre à nginx de communiquer avec PHP-FPM
 EXPOSE 9000

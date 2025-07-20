@@ -19,9 +19,9 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
     echo "==> WordPress installation complete"
 fi
 
-# Corriger les permissions
+# Corriger les permissions (utiliser l'UID/GID directement)
 echo "==> Setting permissions..."
-chown -R www-data:www-data /var/www/wordpress
+chown -R 82:82 /var/www/wordpress
 chmod -R 755 /var/www/wordpress
 chmod 775 /var/www/wordpress/wp-content
 

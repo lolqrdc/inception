@@ -3,8 +3,13 @@ set -e # Le script s'arrêtera qu'en cas d'erreur
 
 echo "==> Checking if MariaDB needs initialization..."
 
-if [ ! -d "/var/lib/mysql/mysql" ]; then
+# Forcer la réinitialisation si le fichier marqueur n'existe pas
+if [ ! -f "/var/lib/mysql/.init_done" ]; then
     echo "==> Initializing MariaDB data directory..."
+    
+    # Supprimer les anciens fichiers si ils existent
+    rm -rf /var/lib/mysql/* 2>/dev/null || true
+    
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql
     
     echo "==> Running SQL initialization script..."
@@ -16,6 +21,9 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     cat /tmp/init_processed.sql
     
     mysqld --user=mysql --bootstrap < /tmp/init_processed.sql
+    
+    # Marquer l'initialisation comme terminée
+    touch /var/lib/mysql/.init_done
     echo "==> MariaDB initial setup complete."
 else
     echo "==> MariaDB already initialized, skipping setup"

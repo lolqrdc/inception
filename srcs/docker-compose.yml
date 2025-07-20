@@ -48,8 +48,16 @@ services: # L'ensemble des services que je vais implémenter
 volumes: # Déclaration des volumes Docker pour la persistance et partage de données
   wordpress:
     driver: local
+    driver_opts:
+      type: 'none' 
+      o: 'bind'
+      device: '/home/loribeir/data/wordpress' # Chemin où sont stockés les fichiers wordpress
   mariadb:
     driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/loribeir/data/mariadb'
 
 networks: # Configuration d'un réseau pour isoler et faire communiquer les services entre eux
   inception:

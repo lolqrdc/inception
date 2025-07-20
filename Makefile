@@ -18,11 +18,17 @@ down:
 
 # Supprimer les volumes
 clean: down
-	@docker volume rm $(docker volume ls -q | grep $(NAME)_ || true)
+	@volumes=$$(docker volume ls -q | grep $(NAME)_ 2>/dev/null || true); \
+	if [ -n "$$volumes" ]; then \
+		docker volume rm $$volumes; \
+	fi
 
 # Supprimer les images custom
 fclean: clean
-	@docker rmi $$(docker images -q $(NAME)_* || true)
+	@images=$$(docker images -q $(NAME)_* 2>/dev/null || true); \
+	if [ -n "$$images" ]; then \
+		docker rmi $$images; \
+	fi
 
 # tout clean up et relancer proprement
 re: fclean all

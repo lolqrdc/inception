@@ -29,29 +29,22 @@ RUN if ! getent group www-data > /dev/null 2>&1; then \
 # Créer le dossier pour wordpress
 RUN mkdir -p /var/www/wordpress /run/php
 
-# Télécharger et installer wordpress
-WORKDIR /var/www/wordpress
-RUN wget https://wordpress.org/latest.tar.gz && \
-    tar -xzf latest.tar.gz --strip-components=1 && \
-    rm latest.tar.gz && \
-    chown -R www-data:www-data /var/www/wordpress
-
 # Configuration PHP-FPM
 RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /etc/php82/php-fpm.d/www.conf && \
     sed -i 's/user = nobody/user = www-data/' /etc/php82/php-fpm.d/www.conf && \
     sed -i 's/group = nobody/group = www-data/' /etc/php82/php-fpm.d/www.conf && \
     sed -i 's/;clear_env = no/clear_env = no/' /etc/php82/php-fpm.d/www.conf
 
-# Copier la configuration WordPress
-COPY conf/wp-config.php /var/www/wordpress/wp-config.php
+# Copier la configuration WordPress dans /tmp
+COPY conf/wp-config.php /tmp/wp-config.php
 
-# Vérification des permissions
-RUN chmod -R 755 /var/www/wordpress && \
-    chmod 775 /var/www/wordpress/wp-content
+# Copier et rendre exécutable le script d'initialisation
+COPY tools/init.sh /tools/init.sh
+RUN chmod +x /tools/init.sh
 
 
 # Permettre à nginx de communiquer avec PHP-FPM
 EXPOSE 9000
 
-# Démarrer PHP-FPM
-CMD ["php-fpm82", "-F"]
+# Démarrer avec le script d'initialisation
+CMD ["/tools/init.sh"]

@@ -1,33 +1,51 @@
-loribeir@loribeir-VirtualBox:~/Desktop/inception$ docker logs mariadb
-==> Starting MariaDB server...
-mysqld: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadbd' instead
-2025-07-20 14:10:21 0 [Note] Starting MariaDB 11.4.5-MariaDB source revision 0771110266ff5c04216af4bf1243c65f8c67ccf4 server_uid +2PbQRm8CuU0ZSJyKVDuvdy90OQ= as process 1
-2025-07-20 14:10:21 0 [Note] InnoDB: Compressed tables use zlib 1.3.1
-2025-07-20 14:10:21 0 [Note] InnoDB: Number of transaction pools: 1
-2025-07-20 14:10:21 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
-2025-07-20 14:10:21 0 [Note] InnoDB: Using Linux native AIO
-2025-07-20 14:10:21 0 [Note] InnoDB: Initializing buffer pool, total size = 128.000MiB, chunk size = 2.000MiB
-2025-07-20 14:10:21 0 [Note] InnoDB: Completed initialization of buffer pool
-2025-07-20 14:10:21 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
-2025-07-20 14:10:21 0 [Note] InnoDB: End of log at LSN=47763
-2025-07-20 14:10:21 0 [Note] InnoDB: Opened 3 undo tablespaces
-2025-07-20 14:10:21 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
-2025-07-20 14:10:21 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
-2025-07-20 14:10:21 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
-2025-07-20 14:10:21 0 [Note] InnoDB: log sequence number 47763; transaction id 14
-2025-07-20 14:10:21 0 [Note] Plugin 'FEEDBACK' is disabled.
-2025-07-20 14:10:21 0 [Note] Plugin 'wsrep-provider' is disabled.
-2025-07-20 14:10:21 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
-2025-07-20 14:10:21 0 [Note] InnoDB: Buffer pool(s) load completed at 250720 14:10:21
-2025-07-20 14:10:21 0 [Note] Server socket created on IP: '0.0.0.0'.
-2025-07-20 14:10:21 0 [Note] mysqld: Event Scheduler: Loaded 0 events
-2025-07-20 14:10:21 0 [Note] mysqld: ready for connections.
-Version: '11.4.5-MariaDB'  socket: '/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
-2025-07-20 14:11:06 3 [Warning] Aborted connection 3 to db: 'unconnected' user: 'unauthenticated' host: 'wordpress.inception_inception' (This connection closed normally without authentication)
-2025-07-20 14:11:06 4 [Warning] Aborted connection 4 to db: 'unconnected' user: 'unauthenticated' host: 'wordpress.inception_inception' (This connection closed normally without authentication)
-loribeir@loribeir-VirtualBox:~/Desktop/inception$ docker logs wordpress
-==> Checking WordPress installation...
-==> Setting permissions...
-==> Starting PHP-FPM...
-loribeir@loribeir-VirtualBox:~/Desktop/inception$ docker logs nginx
-loribeir@loribeir-VirtualBox:~/Desktop/inception$ 
+docker run --rm -v /home/loribeir/data/mariadb:/data alpine ls -la /data
+Unable to find image 'alpine:latest' locally
+latest: Pulling from library/alpine
+9824c27679d3: Pull complete 
+Digest: sha256:4bcff63911fcb4448bd4fdacec207030997caf25e9bea4045fa6c8c44de311d1
+Status: Downloaded newer image for alpine:latest
+total 154084
+drwxr-x---    6 100      101           4096 Jul 20 14:10 .
+drwxr-xr-x    1 root     root          4096 Jul 20 14:14 ..
+-rw-rw----    1 100      101              2 Jul 20 14:10 7edb8bf89163.pid
+-rw-rw----    1 100      101         417792 Jul 20 14:10 aria_log.00000001
+-rw-rw----    1 100      101             52 Jul 20 14:10 aria_log_control
+-rw-rw----    1 100      101              9 Jul 20 14:10 ddl_recovery.log
+-rw-r-----    1 100      101            790 Jul 20 14:10 ib_buffer_pool
+-rw-rw----    1 100      101      100663296 Jul 20 13:31 ib_logfile0
+-rw-rw----    1 100      101       12582912 Jul 20 13:31 ibdata1
+-rw-rw----    1 100      101       12582912 Jul 20 14:10 ibtmp1
+-rw-r--r--    1 root     root            14 Jul 20 13:31 mariadb_upgrade_info
+-rw-rw----    1 100      101              0 Jul 20 13:34 multi-master.info
+drwx------    2 100      101           4096 Jul 20 13:31 mysql
+drwx------    2 100      101           4096 Jul 20 13:31 performance_schema
+drwx------    2 100      101          12288 Jul 20 13:31 sys
+-rw-rw----    1 100      101          24576 Jul 20 14:10 tc.log
+drwx------    2 100      101           4096 Jul 20 13:31 test
+-rw-rw----    1 100      101       10485760 Jul 20 13:31 undo001
+-rw-rw----    1 100      101       10485760 Jul 20 13:31 undo002
+-rw-rw----    1 100      101       10485760 Jul 20 13:31 undo003
+loribeir@loribeir-VirtualBox:~/Desktop/inception$ docker run --rm -v /home/loribeir/data/wordpress:/data alpine ls -la /data
+total 248
+drwxr-xr-x    5 82       www-data      4096 Jul 20 14:02 .
+drwxr-xr-x    1 root     root          4096 Jul 20 14:14 ..
+-rwxr-xr-x    1 82       www-data       405 Feb  6  2020 index.php
+-rwxr-xr-x    1 82       www-data     19903 Mar  6 14:24 license.txt
+-rwxr-xr-x    1 82       www-data      7425 Mar  7 08:45 readme.html
+-rwxr-xr-x    1 82       www-data      7387 Feb 13  2024 wp-activate.php
+drwxr-xr-x    9 82       www-data      4096 Jul 20 14:02 wp-admin
+-rwxr-xr-x    1 82       www-data       351 Feb  6  2020 wp-blog-header.php
+-rwxr-xr-x    1 82       www-data      2323 Jun 14  2023 wp-comments-post.php
+-rwxr-xr-x    1 82       www-data      3336 Oct 15  2024 wp-config-sample.php
+-rwxr-xr-x    1 82       www-data      1159 Jul 20 13:29 wp-config.php
+drwxrwxr-x    4 82       www-data      4096 Jul 20 14:02 wp-content
+-rwxr-xr-x    1 82       www-data      5617 Aug  2  2024 wp-cron.php
+drwxr-xr-x   30 82       www-data     16384 Jul 20 14:02 wp-includes
+-rwxr-xr-x    1 82       www-data      2502 Nov 26  2022 wp-links-opml.php
+-rwxr-xr-x    1 82       www-data      3937 Mar 11  2024 wp-load.php
+-rwxr-xr-x    1 82       www-data     51414 Feb  3 16:55 wp-login.php
+-rwxr-xr-x    1 82       www-data      8727 Feb  8 16:00 wp-mail.php
+-rwxr-xr-x    1 82       www-data     30081 Mar  4 13:06 wp-settings.php
+-rwxr-xr-x    1 82       www-data     34516 Mar 10 18:16 wp-signup.php
+-rwxr-xr-x    1 82       www-data      5102 Oct 18  2024 wp-trackback.php
+-rwxr-xr-x    1 82       www-data      3205 Nov  8  2024 xmlrpc.php

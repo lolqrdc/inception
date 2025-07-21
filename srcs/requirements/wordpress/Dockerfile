@@ -14,15 +14,9 @@ RUN apk update && apk add --no-cache \
     php82-openssl \
     php82-xml \
     php82-zip \
-    php82-phar \
     wget \
     curl \
     mariadb-client
-
-# Installer WP-CLI
-RUN wget https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
-    chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/local/bin/wp
 
 # Créer un utilisateur www-data
 RUN if ! getent group www-data > /dev/null 2>&1; then \
@@ -33,7 +27,7 @@ RUN if ! getent group www-data > /dev/null 2>&1; then \
     fi
 
 # Créer le dossier pour wordpress
-RUN mkdir -p /var/www/wordpress
+RUN mkdir -p /var/www/wordpress /run/php
 
 # Configuration PHP-FPM
 RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /etc/php82/php-fpm.d/www.conf && \

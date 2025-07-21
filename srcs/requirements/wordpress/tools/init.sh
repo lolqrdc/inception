@@ -9,7 +9,7 @@ if [ ! -d /run/php ]; then
 fi
 
 # Attendre MariaDB
-while ! mariadb -h mariadb -u${MARIADB_USER} -p{MARIADB_PASSWORD} -e "SELECT 1" > /dev/null 2>&1; do
+while ! mariadb -h mariadb -u${MARIADB_USER} -p${MARIADB_PASSWORD} -e "SELECT 1" > /dev/null 2>&1; do
     sleep 2
 done
 
@@ -30,7 +30,7 @@ if [ ! -f /var/www/wordpress/wp-config.php ] || ! wp core is-installed --allow-r
         --url="https://${WORDPRESS_URL}" \
         --title="${WORDPRESS_TITLE}" \
         --admin_user="${WORDPRESS_ADMIN_USER}" \
-        --admin_passord="${WORDPRESS_ADMIN_PASSWORD}" \
+        --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
         --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
         --allow-root
     wp user create \

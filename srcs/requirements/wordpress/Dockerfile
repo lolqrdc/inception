@@ -20,7 +20,7 @@ RUN apk update && apk add --no-cache \
     mariadb-client
 
 # Installer WP-CLI
-RUN curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
+RUN curl -L https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar -o wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 

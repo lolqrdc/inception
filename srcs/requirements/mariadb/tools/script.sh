@@ -1,31 +1,33 @@
 #!/bin/sh
 set -e
 
-# Forcer l'initialisation si le volume est vide ou pas encore initialisé
-if [ -z "$(ls -A /var/lib/mysql 2>/dev/null)" ] || [ ! -f "/var/lib/mysql/.initialized" ]; then
-    # Nettoyer complètement le répertoire
-    rm -rf /var/lib/mysql/*
+echo "==> Initializing MariaDB..."
+
+# Si pas encore initialisé
+if [ ! -f "/var/lib/mysql/.initialized" ]; then
+    echo "==> First run - setting up database..."
     
     # Initialiser MariaDB
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql
-
-    # Démarrer serveur temporaire pour configuration
-    mariadbd --user=mysql --skip-networking --socket=/tmp/mysql_init.sock &
+    
+    # Générer le script SQL avec les vraies variables
+    envsubst < /tools/init.sql > /tmp/init_final.sql
+    
+    # Démarrer avec le script d'initialisation
+    mariadbd --user=mysql --init-file=/tmp/init_final.sql &
     MYSQL_PID=$!
     
-    # Attendre le démarrage
-    sleep 5
+    # Attendre que l'initialisation soit terminée
+    sleep 10
     
-    # Exécuter le script d'initialisation SQL
-    envsubst < /tools/init.sql | mariadb --socket=/tmp/mysql_init.sock
-    
-    # Arrêter le serveur temporaire
-    kill $MYSQL_PID
-    wait $MYSQL_PID
+    # Arrêter le processus temporaire
+    kill $MYSQL_PID 2>/dev/null || true
+    wait $MYSQL_PID 2>/dev/null || true
     
     # Marquer comme initialisé
     touch /var/lib/mysql/.initialized
+    echo "==> Database initialized successfully"
 fi
 
-# Démarrer MariaDB en mode production
+echo "==> Starting MariaDB..."
 exec mariadbd --user=mysql

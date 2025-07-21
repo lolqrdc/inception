@@ -1,9 +1,9 @@
 <?php
 
 // ** Configuration de la base de données MySQL
-define('DB_NAME', $_ENV['MARIADB_DATABASE'] ?? 'wordpress');
-define('DB_USER', $_ENV['MARIADB_USER'] ?? 'wpuser');
-define('DB_PASSWORD', $_ENV['MARIADB_PASSWORD'] ?? 'wppass123');
+define('DB_NAME', getenv('MARIADB_DATABASE'));
+define('DB_USER', getenv('MARIADB_USER'));
+define('DB_PASSWORD', getenv('MARIADB_PASSWORD'));
 define('DB_HOST', 'mariadb');
 define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATE', '');

@@ -13,6 +13,7 @@ clean: down
 
 fclean: clean
 	@docker system prune -a -f
+	@docker volume rm $(shell docker volume ls -q | grep $(NAME)) 2>/dev/null || true
 
 re: fclean all
 

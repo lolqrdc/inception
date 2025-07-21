@@ -19,10 +19,11 @@ RUN apk update && apk add --no-cache \
     curl \
     mariadb-client
 
-# Installer WP-CLI
-RUN wget https://raw.githubusercontent.com/wp-cli/wp-cli/master/bin/wp-cli.phar -O wp-cli.phar && \
+# Installer WP-CLI avec une URL qui fonctionne
+RUN curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
     chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/local/bin/wp 
+    mv wp-cli.phar /usr/local/bin/wp
+
 # Créer un utilisateur www-data
 RUN if ! getent group www-data > /dev/null 2>&1; then \
         addgroup -S www-data; \

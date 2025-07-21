@@ -1,50 +1,8 @@
-docker logs mariadb
-==> Initializing MariaDB...
-==> Checking initialization status...
-Directory /var/lib/mysql contents:
-total 141780
-drwxr-x---    7 mysql    mysql         4096 Jul 21 14:17 .
-drwxr-xr-x    1 root     root          4096 Jul 21 14:20 ..
--rw-r--r--    1 mysql    mysql            0 Jul 20 16:05 .initialized
--rw-rw----    1 mysql    mysql       417792 Jul 21 14:17 aria_log.00000001
--rw-rw----    1 mysql    mysql           52 Jul 21 14:17 aria_log_control
--rw-rw----    1 mysql    mysql            9 Jul 21 12:26 ddl_recovery-backup.log
--rw-r-----    1 mysql    mysql         1467 Jul 21 14:17 ib_buffer_pool
--rw-rw----    1 mysql    mysql    100663296 Jul 21 09:33 ib_logfile0
--rw-rw----    1 mysql    mysql     12582912 Jul 21 09:33 ibdata1
--rw-r--r--    1 mysql    mysql           14 Jul 20 16:05 mariadb_upgrade_info
--rw-rw----    1 mysql    mysql            0 Jul 20 16:05 multi-master.info
-drwx------    2 mysql    mysql         4096 Jul 20 16:05 mysql
-drwx------    2 mysql    mysql         4096 Jul 20 16:05 performance_schema
-drwx------    2 mysql    mysql        12288 Jul 20 16:05 sys
-drwx------    2 mysql    mysql         4096 Jul 20 16:05 test
--rw-rw----    1 mysql    mysql     10485760 Jul 21 09:33 undo001
--rw-rw----    1 mysql    mysql     10485760 Jul 21 09:33 undo002
--rw-rw----    1 mysql    mysql     10485760 Jul 21 09:33 undo003
-drwx------    2 mysql    mysql         4096 Jul 21 09:24 wordpress
-File .initialized exists: YES
-==> Database already initialized - file .initialized exists
-==> Starting MariaDB...
-2025-07-21 14:20:22 0 [Note] Starting MariaDB 11.4.5-MariaDB source revision 0771110266ff5c04216af4bf1243c65f8c67ccf4 server_uid LdpDM9tgyJm8798XRBroGtWCjpY= as process 1
-2025-07-21 14:20:22 0 [Note] InnoDB: Compressed tables use zlib 1.3.1
-2025-07-21 14:20:22 0 [Note] InnoDB: Number of transaction pools: 1
-2025-07-21 14:20:22 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
-2025-07-21 14:20:22 0 [Note] InnoDB: Using Linux native AIO
-2025-07-21 14:20:22 0 [Note] InnoDB: Initializing buffer pool, total size = 128.000MiB, chunk size = 2.000MiB
-2025-07-21 14:20:22 0 [Note] InnoDB: Completed initialization of buffer pool
-2025-07-21 14:20:22 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
-2025-07-21 14:20:22 0 [Note] InnoDB: End of log at LSN=1508879
-2025-07-21 14:20:22 0 [Note] InnoDB: Opened 3 undo tablespaces
-2025-07-21 14:20:22 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
-2025-07-21 14:20:22 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
-2025-07-21 14:20:22 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
-2025-07-21 14:20:22 0 [Note] InnoDB: log sequence number 1508879; transaction id 554
-2025-07-21 14:20:22 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
-2025-07-21 14:20:22 0 [Note] Plugin 'FEEDBACK' is disabled.
-2025-07-21 14:20:22 0 [Note] Plugin 'wsrep-provider' is disabled.
-2025-07-21 14:20:22 0 [Note] InnoDB: Buffer pool(s) load completed at 250721 14:20:22
-2025-07-21 14:20:23 0 [Note] Server socket created on IP: '0.0.0.0'.
-2025-07-21 14:20:23 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
-2025-07-21 14:20:23 0 [Note] mariadbd: ready for connections.
-Version: '11.4.5-MariaDB'  socket: '/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
-2025-07-21 14:20:50 7 [Warning] Access denied for user ''@'wordpress.inception_inception'
+
+
+An error occurred during a connection to loribeir.42.fr. PR_END_OF_FILE_ERROR
+
+Error code: PR_END_OF_FILE_ERROR
+
+    The page you are trying to view cannot be shown because the authenticity of the received data could not be verified.
+    Please contact the website owners to inform them of this problem.

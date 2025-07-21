@@ -1,0 +1,26 @@
+# Variables d'environnement pour Inception
+
+# Domain
+DOMAIN_NAME=loribeir.42.fr
+
+# MariaDB
+MARIADB_ROOT_PASSWORD=rootpass123
+MARIADB_DATABASE=wordpress
+MARIADB_USER=wpuser
+MARIADB_PASSWORD=wppass123
+
+# WordPress
+WORDPRESS_DB_NAME=wordpress
+WORDPRESS_DB_USER=wpuser
+WORDPRESS_DB_PASSWORD=wppass123
+
+WORDPRESS_ADMIN_USER=wpowner
+WORDPRESS_ADMIN_PASSWORD=super_secure_password_123
+WORDPRESS_ADMIN_EMAIL=owner@loribeir.42.fr
+WORDPRESS_TITLE="Mon Site WordPress"
+WORDPRESS_URL=https://loribeir.42.fr
+
+# Utilisateur WordPress standard (non-admin)
+WORDPRESS_USER=user
+WORDPRESS_USER_PASSWORD=user123
+WORDPRESS_USER_EMAIL=user@loribeir.42.fr

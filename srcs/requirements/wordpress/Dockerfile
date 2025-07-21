@@ -22,9 +22,7 @@ RUN apk update && apk add --no-cache \
 # Installer WP-CLI
 RUN wget https://raw.githubusercontent.com/wp-cli/wp-cli/master/bin/wp-cli.phar -O wp-cli.phar && \
     chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/local/bin/wp && \
-    wp --info --allow-root
-
+    mv wp-cli.phar /usr/local/bin/wp 
 # Créer un utilisateur www-data
 RUN if ! getent group www-data > /dev/null 2>&1; then \
         addgroup -S www-data; \

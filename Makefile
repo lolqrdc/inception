@@ -6,6 +6,8 @@ all:
 down: 
 	@docker compose -p $(NAME) -f srcs/docker-compose.yml down
 
+logs: 
+	@docker compose -p $(NAME) -f srcs/docker-compose.yml logs
 clean: down
 	@docker volume prune -f
 

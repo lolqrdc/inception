@@ -3,7 +3,6 @@ set -e
 
 echo "==> Checking WordPress installation..."
 
-
 # Creer le dossier /run/php
 if [ ! -d /run/php ]; then
     mkdir -p /run/php
@@ -15,7 +14,7 @@ while ! mariadb -h mariadb -u"${MARIADB_USER}" -p"${MARIADB_PASSWORD}" -e "SELEC
 done
 
 # Si WordPress n'est pas installé dans le volume
-if [ ! -f /var/www/wordpress/wp-config.php ] || ! wp core is-installed --allow-root --path=/var/www/wordpress 2>/dev/null; then
+if [ ! -f /var/www/wordpress/wp-config.php ]; then
     echo "==> Installing WordPress..."
     
 # Télécharger WordPress avec WP-CLI

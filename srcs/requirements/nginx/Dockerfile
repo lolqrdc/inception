@@ -12,7 +12,7 @@ RUN openssl req -newkey rsa:2048 -nodes \
     -keyout /etc/nginx/ssl/inception.key \
     -x509 -days 365 \
     -out /etc/nginx/ssl/inception.crt \
-    -subj "/C=FR/L=Le Havre/O=42 Le Havre/OU=42/CN=${DOMAIN_NAME}/UID=loribeir"
+    -subj "/C=FR/L=Le Havre/O=42 Le Havre/OU=42/CN=loribeir.42.fr/UID=loribeir"
 
 # Copie de la config personnalisé depuis le dossier "conf" vers le dossier de conf de Nginx dqns le conteneur
 COPY conf/nginx.conf /etc/nginx/nginx.conf

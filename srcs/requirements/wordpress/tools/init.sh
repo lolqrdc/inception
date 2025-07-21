@@ -3,13 +3,14 @@ set -e
 
 echo "==> Checking WordPress installation..."
 
+
 # Creer le dossier /run/php
 if [ ! -d /run/php ]; then
     mkdir -p /run/php
 fi
 
 # Attendre MariaDB
-while ! mariadb -h mariadb -u${MARIADB_USER} -p${MARIADB_PASSWORD} -e "SELECT 1" > /dev/null 2>&1; do
+while ! mariadb -h mariadb -u"${MARIADB_USER}" -p"${MARIADB_PASSWORD}" -e "SELECT 1" > /dev/null 2>&1; do
     sleep 2
 done
 

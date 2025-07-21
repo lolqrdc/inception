@@ -1,9 +1,9 @@
 <?php
 
 // ** Configuration de la base de données MySQL
-define('DB_NAME', getenv('WORDPRESS_DB_NAME'));
-define('DB_USER', getenv('WORDPRESS_DB_USER'));
-define('DB_PASSWORD', getenv('WORDPRESS_DB_PASSWORD'));
+define('DB_NAME', getenv('MARIADB_DATABASE'));
+define('DB_USER', getenv('MARIADB_USER'));
+define('DB_PASSWORD', getenv('MARIADB_PASSWORD'));
 define('DB_HOST', 'mariadb');
 define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATE', '');

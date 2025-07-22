@@ -1,6 +1,6 @@
 FROM alpine:3.21.2
 
-# Installation de PHP et les mise à jour
+# Installer PHP et ses extensions
 RUN apk update && apk add --no-cache \
     php82 \
     php82-fpm \
@@ -14,18 +14,11 @@ RUN apk update && apk add --no-cache \
     php82-openssl \
     php82-xml \
     php82-zip \
-    php82-phar \
     wget \
     curl \
     mariadb-client
 
-# Installer WP-CLI avec une URL qui fonctionne
-RUN curl -fSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-    chmod +x /usr/local/bin/wp && \
-    head -20 /usr/local/bin/wp && \
-    php /usr/local/bin/wp --info --allow-root
-
-# Créer un utilisateur www-data
+# Créer un utilisateur www-data de manière sécurisée
 RUN if ! getent group www-data > /dev/null 2>&1; then \
         addgroup -S www-data; \
     fi && \
@@ -33,8 +26,15 @@ RUN if ! getent group www-data > /dev/null 2>&1; then \
         adduser -S -G www-data www-data; \
     fi
 
-# Créer le dossier pour wordpress
+# Créer le dossier pour WordPress (correspondant au docker-compose)
 RUN mkdir -p /var/www/wordpress
+
+# Télécharger et installer WordPress
+WORKDIR /var/www/wordpress
+RUN wget https://wordpress.org/latest.tar.gz && \
+    tar -xzf latest.tar.gz --strip-components=1 && \
+    rm latest.tar.gz && \
+    chown -R www-data:www-data /var/www/wordpress
 
 # Configuration PHP-FPM
 RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /etc/php82/php-fpm.d/www.conf && \
@@ -42,19 +42,16 @@ RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /etc/php82/php-fpm
     sed -i 's/group = nobody/group = www-data/' /etc/php82/php-fpm.d/www.conf && \
     sed -i 's/;clear_env = no/clear_env = no/' /etc/php82/php-fpm.d/www.conf
 
-# Copier la configuration WordPress dans /tmp
-COPY conf/wp-config.php /tmp/wp-config.php
+# Copier un fichier de configuration WordPress
+COPY ./conf/wp-config.php /var/www/wordpress/wp-config.php
 
-# Copier et rendre exécutable le script d'initialisation
-COPY tools/init.sh /tools/init.sh
-RUN chmod +x /tools/init.sh
+# Permissions
+RUN chown -R www-data:www-data /var/www/wordpress && \
+    chmod -R 755 /var/www/wordpress && \
+    chmod 777 /var/www/wordpress/wp-content
 
-# Créer le dossier tools et donner les permissions
-RUN mkdir -p /tools && chown -R www-data:www-data /tools
-
-
-# Permettre à nginx de communiquer avec PHP-FPM
+# Exposer le port PHP-FPM
 EXPOSE 9000
 
-# Démarrer avec le script d'initialisation
-CMD ["/tools/init.sh"]
+# Démarrer PHP-FPM avec l'utilisateur www-data
+CMD ["php-fpm82", "-F"]

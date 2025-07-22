@@ -1,29 +1,29 @@
 make all
-[+] Building 0.6s (28/35)                                                       
+[+] Building 0.8s (28/35)                                                       
  => [internal] load local bake definitions                                 0.0s
  => => reading from stdin 1.10kB                                           0.0s
- => [nginx internal] load build definition from Dockerfile                 0.0s
- => => transferring dockerfile: 924B                                       0.0s
  => [mariadb internal] load build definition from Dockerfile               0.0s
  => => transferring dockerfile: 562B                                       0.0s
+ => [nginx internal] load build definition from Dockerfile                 0.0s
+ => => transferring dockerfile: 924B                                       0.0s
  => [wordpress internal] load build definition from Dockerfile             0.0s
  => => transferring dockerfile: 1.81kB                                     0.0s
- => [wordpress internal] load metadata for docker.io/library/alpine:3.21.  0.0s
- => [nginx internal] load .dockerignore                                    0.0s
- => => transferring context: 34B                                           0.0s
+ => [nginx internal] load metadata for docker.io/library/alpine:3.21.2     0.0s
  => [mariadb internal] load .dockerignore                                  0.0s
  => => transferring context: 34B                                           0.0s
  => [wordpress internal] load .dockerignore                                0.0s
  => => transferring context: 2B                                            0.0s
- => [wordpress 1/5] FROM docker.io/library/alpine:3.21.2                   0.0s
+ => [nginx internal] load .dockerignore                                    0.0s
+ => => transferring context: 34B                                           0.0s
+ => [wordpress 1/7] FROM docker.io/library/alpine:3.21.2                   0.0s
+ => [mariadb internal] load build context                                  0.0s
+ => => transferring context: 163B                                          0.0s
  => [nginx internal] load build context                                    0.0s
  => => transferring context: 61B                                           0.0s
  => [wordpress internal] load build context                                0.0s
  => => transferring context: 122B                                          0.0s
- => [mariadb internal] load build context                                  0.0s
- => => transferring context: 163B                                          0.0s
  => CACHED [wordpress  2/10] RUN apk update && apk add --no-cache     php  0.0s
- => ERROR [wordpress  3/10] RUN curl -fSL -o /usr/local/bin/wp https://ra  0.4s
+ => ERROR [wordpress  3/10] RUN curl -fSL -o /usr/local/bin/wp https://gi  0.6s
  => CACHED [nginx 2/5] RUN apk update && apk add openssl nginx             0.0s
  => CACHED [nginx 3/5] RUN mkdir -p /var/www/wordpress /etc/nginx/ssl /ru  0.0s
  => CACHED [nginx 4/5] RUN openssl req -newkey rsa:2048 -nodes     -keyou  0.0s
@@ -34,22 +34,23 @@ make all
  => CACHED [mariadb 5/7] COPY tools/init.sql /tools/init.sql               0.0s
  => CACHED [mariadb 6/7] COPY tools/script.sh /tools/script.sh             0.0s
  => CACHED [mariadb 7/7] RUN chmod +x /tools/script.sh                     0.0s
- => [nginx] exporting to image                                             0.0s
- => => exporting layers                                                    0.0s
- => => writing image sha256:3a533718358ad091a537b08920f58fe0deb6a3b819c31  0.0s
- => => naming to docker.io/library/inception-nginx                         0.0s
  => [mariadb] exporting to image                                           0.0s
  => => exporting layers                                                    0.0s
  => => writing image sha256:e9f4a018ea6d402a75c61327709f809da60c56101142e  0.0s
  => => naming to docker.io/library/inception-mariadb                       0.0s
- => [nginx] resolving provenance for metadata file                         0.0s
+ => [nginx] exporting to image                                             0.0s
+ => => exporting layers                                                    0.0s
+ => => writing image sha256:3a533718358ad091a537b08920f58fe0deb6a3b819c31  0.0s
+ => => naming to docker.io/library/inception-nginx                         0.0s
  => [mariadb] resolving provenance for metadata file                       0.0s
+ => [nginx] resolving provenance for metadata file                         0.0s
 ------
- > [wordpress  3/10] RUN curl -fSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root:
-0.220   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-0.220                                  Dload  Upload   Total   Spent    Left  Speed
+ > [wordpress  3/10] RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/latest/download/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root:
+0.194   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+0.194                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-0.378 curl: (22) The requested URL returned error: 404
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+0.535 curl: (22) The requested URL returned error: 404
 ------
 Dockerfile:23
 
@@ -57,7 +58,7 @@ Dockerfile:23
 
   22 |     # Installer WP-CLI avec une URL qui fonctionne
 
-  23 | >>> RUN curl -fSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
+  23 | >>> RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/latest/download/wp-cli.phar && \
 
   24 | >>>     chmod +x /usr/local/bin/wp && \
 
@@ -69,6 +70,6 @@ Dockerfile:23
 
 --------------------
 
-target wordpress: failed to solve: process "/bin/sh -c curl -fSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root" did not complete successfully: exit code: 22
+target wordpress: failed to solve: process "/bin/sh -c curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/latest/download/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root" did not complete successfully: exit code: 22
 
 make: *** [Makefile:7: all] Error 1

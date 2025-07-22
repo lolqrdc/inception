@@ -17,16 +17,13 @@ RUN apk update && apk add --no-cache \
     php82-phar \
     wget \
     curl \
-    mariadb-client \
-    && ln -s /usr/bin/php82 /usr/bin/php
+    mariadb-client
 
 # Installer WP-CLI avec une URL qui fonctionne
-RUN wget -O- https://wordpress.org/latest.tar.gz | head -c 100
-RUN wget -O- https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar | head -c 100
-
-RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
-    chmod +x /usr/local/bin/wp
-RUN php /usr/local/bin/wp --info --allow-root
+RUN curl -fSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
+    chmod +x /usr/local/bin/wp && \
+    head -20 /usr/local/bin/wp && \
+    php /usr/local/bin/wp --info --allow-root
 
 # Créer un utilisateur www-data
 RUN if ! getent group www-data > /dev/null 2>&1; then \

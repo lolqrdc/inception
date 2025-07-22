@@ -21,6 +21,9 @@ RUN apk update && apk add --no-cache \
     && ln -s /usr/bin/php82 /usr/bin/php
 
 # Installer WP-CLI avec une URL qui fonctionne
+RUN wget -O- https://wordpress.org/latest.tar.gz | head -c 100
+RUN wget -O- https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar | head -c 100
+
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/wp-cli/v2.8.1/bin/wp-cli.phar && \
     chmod +x /usr/local/bin/wp
 RUN php /usr/local/bin/wp --info --allow-root

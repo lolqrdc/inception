@@ -1,14 +1,14 @@
 make all
-[+] Building 0.8s (28/35)                                                       
+[+] Building 0.6s (28/35)                                                       
  => [internal] load local bake definitions                                 0.0s
  => => reading from stdin 1.10kB                                           0.0s
  => [mariadb internal] load build definition from Dockerfile               0.0s
  => => transferring dockerfile: 562B                                       0.0s
+ => [wordpress internal] load build definition from Dockerfile             0.0s
+ => => transferring dockerfile: 1.91kB                                     0.0s
  => [nginx internal] load build definition from Dockerfile                 0.0s
  => => transferring dockerfile: 924B                                       0.0s
- => [wordpress internal] load build definition from Dockerfile             0.0s
- => => transferring dockerfile: 1.81kB                                     0.0s
- => [nginx internal] load metadata for docker.io/library/alpine:3.21.2     0.0s
+ => [wordpress internal] load metadata for docker.io/library/alpine:3.21.  0.0s
  => [mariadb internal] load .dockerignore                                  0.0s
  => => transferring context: 34B                                           0.0s
  => [wordpress internal] load .dockerignore                                0.0s
@@ -23,11 +23,7 @@ make all
  => [wordpress internal] load build context                                0.0s
  => => transferring context: 122B                                          0.0s
  => CACHED [wordpress  2/10] RUN apk update && apk add --no-cache     php  0.0s
- => ERROR [wordpress  3/10] RUN curl -fSL -o /usr/local/bin/wp https://gi  0.6s
- => CACHED [nginx 2/5] RUN apk update && apk add openssl nginx             0.0s
- => CACHED [nginx 3/5] RUN mkdir -p /var/www/wordpress /etc/nginx/ssl /ru  0.0s
- => CACHED [nginx 4/5] RUN openssl req -newkey rsa:2048 -nodes     -keyou  0.0s
- => CACHED [nginx 5/5] COPY conf/nginx.conf /etc/nginx/nginx.conf          0.0s
+ => ERROR [wordpress  3/10] RUN wget -O- https://github.com/wp-cli/wp-cli  0.4s
  => CACHED [mariadb 2/7] RUN apk update && apk add --no-cache mariadb mar  0.0s
  => CACHED [mariadb 3/7] RUN mkdir -p /var/lib/mysql /run/mysqld &&     c  0.0s
  => CACHED [mariadb 4/7] COPY conf/mariadb-server.cnf /etc/my.cnf.d/maria  0.0s
@@ -38,6 +34,10 @@ make all
  => => exporting layers                                                    0.0s
  => => writing image sha256:e9f4a018ea6d402a75c61327709f809da60c56101142e  0.0s
  => => naming to docker.io/library/inception-mariadb                       0.0s
+ => CACHED [nginx 2/5] RUN apk update && apk add openssl nginx             0.0s
+ => CACHED [nginx 3/5] RUN mkdir -p /var/www/wordpress /etc/nginx/ssl /ru  0.0s
+ => CACHED [nginx 4/5] RUN openssl req -newkey rsa:2048 -nodes     -keyou  0.0s
+ => CACHED [nginx 5/5] COPY conf/nginx.conf /etc/nginx/nginx.conf          0.0s
  => [nginx] exporting to image                                             0.0s
  => => exporting layers                                                    0.0s
  => => writing image sha256:3a533718358ad091a537b08920f58fe0deb6a3b819c31  0.0s
@@ -45,12 +45,19 @@ make all
  => [mariadb] resolving provenance for metadata file                       0.0s
  => [nginx] resolving provenance for metadata file                         0.0s
 ------
- > [wordpress  3/10] RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/latest/download/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root:
-0.194   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-0.194                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-0.535 curl: (22) The requested URL returned error: 404
+ > [wordpress  3/10] RUN wget -O- https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar | head -c 100 RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root:
+0.146 head: RUN: No such file or directory
+0.146 head: curl: No such file or directory
+0.146 head: -fSL: No such file or directory
+0.146 head: -o: No such file or directory
+0.146 head: /usr/local/bin/wp: No such file or directory
+0.146 head: https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar: No such file or directory
+0.165 --2025-07-22 08:16:50--  https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar
+0.178 Resolving github.com (github.com)... 140.82.121.3
+0.180 Connecting to github.com (github.com)|140.82.121.3|:443... connected.
+0.222 HTTP request sent, awaiting response... 404 Not Found
+0.389 2025-07-22 08:16:50 ERROR 404: Not Found.
+0.389 
 ------
 Dockerfile:23
 
@@ -58,18 +65,20 @@ Dockerfile:23
 
   22 |     # Installer WP-CLI avec une URL qui fonctionne
 
-  23 | >>> RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/latest/download/wp-cli.phar && \
+  23 | >>> RUN wget -O- https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar | head -c 100 \
 
-  24 | >>>     chmod +x /usr/local/bin/wp && \
+  24 | >>> RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar && \
 
-  25 | >>>     head -20 /usr/local/bin/wp && \
+  25 | >>>     chmod +x /usr/local/bin/wp && \
 
-  26 | >>>     php /usr/local/bin/wp --info --allow-root
+  26 | >>>     head -20 /usr/local/bin/wp && \
 
-  27 |     
+  27 | >>>     php /usr/local/bin/wp --info --allow-root
+
+  28 |     
 
 --------------------
 
-target wordpress: failed to solve: process "/bin/sh -c curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/latest/download/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root" did not complete successfully: exit code: 22
+target wordpress: failed to solve: process "/bin/sh -c wget -O- https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar | head -c 100 RUN curl -fSL -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/download/v2.8.0/wp-cli.phar &&     chmod +x /usr/local/bin/wp &&     head -20 /usr/local/bin/wp &&     php /usr/local/bin/wp --info --allow-root" did not complete successfully: exit code: 1
 
 make: *** [Makefile:7: all] Error 1

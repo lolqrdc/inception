@@ -20,6 +20,13 @@ down:
 
 restart: down all
 
+logs:
+    $(DOCKER_COMPOSE_CMD) -p $(NAME) -f $(DOCKER_COMPOSE_PATH) logs -f
+
+ps:
+    $(DOCKER_COMPOSE_CMD) -p $(NAME) -f $(DOCKER_COMPOSE_PATH) ps
+
+# Un shell "jetable" dans le conteneur alpine pour tester des cmds ou le réseau
 test:
 	docker run -it --rm alpine:3.21.2 sh
 

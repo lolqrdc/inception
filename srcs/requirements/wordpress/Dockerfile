@@ -26,10 +26,10 @@ RUN if ! getent group www-data > /dev/null 2>&1; then \
         adduser -S -G www-data www-data; \
     fi
 
-# Créer le dossier pour WordPress (correspondant au docker-compose)
+# Créer le dossier pour wordpress (correspondant au docker-compose)
 RUN mkdir -p /var/www/wordpress
 
-# Télécharger et installer WordPress
+# Télécharger et installer wordpress
 WORKDIR /var/www/wordpress
 RUN wget https://wordpress.org/latest.tar.gz && \
     tar -xzf latest.tar.gz --strip-components=1 && \
@@ -42,10 +42,10 @@ RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /etc/php82/php-fpm
     sed -i 's/group = nobody/group = www-data/' /etc/php82/php-fpm.d/www.conf && \
     sed -i 's/;clear_env = no/clear_env = no/' /etc/php82/php-fpm.d/www.conf
 
-# Copier un fichier de configuration WordPress
+# Copier un fichier de configuration wordpress
 COPY ./conf/wp-config.php /var/www/wordpress/wp-config.php
 
-# Permissions
+# Les bonnes permissions
 RUN chown -R www-data:www-data /var/www/wordpress && \
     chmod -R 755 /var/www/wordpress && \
     chmod 777 /var/www/wordpress/wp-content
